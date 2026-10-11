@@ -21,7 +21,18 @@ cd p3-stack
 
 This fork is maintained at [zackleman/p3-stack](https://github.com/zackleman/p3-stack). Clone that repository to use these updates.
 
-`install.sh` links every `skills/*` directory into `~/.agents/skills/`, where T3 Code reads skills. Use `./install.sh --project /path/to/repo` to install into a project's `.agents/skills/` instead. Existing files and links from other installations are preserved. Running the installer again leaves matching links intact.
+`install.sh` imports this repository as a Git subtree at `~/.agents/skills/p3`. The personal skills directory must already be a Git repository with its tracked changes committed. Every imported file is tracked by that repository, and skills are discovered under `p3/skills/`. No per-skill links or nested `.git` directory are created. Running the installer again pulls updates from this fork.
+
+Use `./install.sh --project /path/to/repo` to import into a project's `.agents/skills/p3` instead. An existing directory that is not a subtree is left untouched.
+
+To sync the personal copy directly:
+
+```sh
+git -C ~/.agents/skills subtree pull --prefix=p3 https://github.com/zackleman/p3-stack.git main --squash -m 'chore: sync p3-stack subtree'
+git -C ~/.agents/skills subtree push --prefix=p3 https://github.com/zackleman/p3-stack.git main
+```
+
+Commit edits in the personal skills repository before pushing them back. The pull imports changes from the independent fork; the push exports only `p3/`.
 
 Four skills use a prefix to coexist with the existing personal skill library: `/p3-arena`, `/p3-blast-radius`, `/p3-tdd`, and `/p3-teach`. Their references inside this fork use those names too. The upstream unslop is installed as `/unslop`. `/bro` comes from the personal skill library; this fork does not install a second bro skill.
 

@@ -20,7 +20,7 @@ Check the state that changes the answer, and mention it only when it does. No `p
 
 ## Get set up
 
-1. Install by cloning the repo and running `./install.sh`. It links every skill into `~/.agents/skills/`, where T3 Code reads skills; `./install.sh --project /path/to/repo` targets a project's `.agents/skills/` instead.
+1. Install by cloning the repo and running `./install.sh`. It imports real files as a Git subtree at `~/.agents/skills/p3`, where T3 Code discovers `p3/skills/`; `./install.sh --project /path/to/repo` targets a project's `.agents/skills/p3` instead. The target must be a Git repository with its tracked changes committed. Run the installer again to pull updates from the independent fork.
 2. Run [`/setup-p3`](../setup-p3/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes `p3-models.md`. The file applies to new sessions.
 3. Start a real task with `/p3-mode`, a goal, and a check that can pass or fail.
 

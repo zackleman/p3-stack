@@ -24,6 +24,8 @@ python3 scripts/import-pstack.py /path/to/cursor-plugins
 python3 scripts/import-pstack.py /path/to/cursor-plugins --check
 ```
 
-The separate `/p3-help` edits preserve its T3 instructions. Four conflicting skill names receive `p3-` prefixes so installing the fork keeps the existing personal skills available. The installer preserves unrelated symlinks and ordinary directories.
+The separate `/p3-help` edits preserve its T3 instructions. Four conflicting skill names receive `p3-` prefixes so installing the fork keeps the existing personal skills available. The installer imports real files as a Git subtree and leaves an existing unmanaged directory untouched.
 
 On October 11, 2026, Zack chose to keep the personal `/bro` and remove `/p3-bro`, keep both TDD and teaching versions, and replace the personal unslop with the upstream version under `/unslop`. Bro references now resolve by name to the personal library, and the importer preserves this choice.
+
+The personal installation now uses `p3/` as a Git subtree instead of per-skill symlinks. The skills repository records the complete contents, while subtree pull and push synchronize with the independent fork.

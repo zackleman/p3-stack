@@ -1,44 +1,37 @@
 #!/usr/bin/env bash
-# Install p3-stack skills for T3 Code.
+# Install or update real p3-stack files as a Git subtree.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TARGET="${HOME}/.agents/skills"
+TARGET_REPO="${HOME}/.agents/skills"
+PREFIX="p3"
+SOURCE="${P3_STACK_SOURCE:-https://github.com/zackleman/p3-stack.git}"
 
-if [[ "${1:-}" == "--project" ]]; then
-  TARGET="${2:?usage: ./install.sh --project /path/to/repo}/.agents/skills"
-  [[ "$#" == 2 ]] || { printf 'usage: ./install.sh [--project /path/to/repo]\n' >&2; exit 2; }
+if [[ "${1:-}" == "--project" && "$#" == 2 ]]; then
+  TARGET_REPO="$2"
+  PREFIX=".agents/skills/p3"
 elif [[ "$#" != 0 ]]; then
   printf 'usage: ./install.sh [--project /path/to/repo]\n' >&2
   exit 2
 fi
 
-mkdir -p "$TARGET"
-installed=0
-skipped=0
-
-for skill in "$ROOT"/skills/*/; do
-  name="$(basename "$skill")"
-  source="${skill%/}"
-  if [[ -L "$TARGET/$name" ]]; then
-    if [[ "$(readlink "$TARGET/$name")" == "$source" ]]; then
-      installed=$((installed + 1))
-      continue
-    fi
-    printf 'skip %s (existing symlink belongs to another installation)\n' "$name"
-    skipped=$((skipped + 1))
-    continue
-  elif [[ -e "$TARGET/$name" ]]; then
-    printf 'skip %s (exists and is not a symlink)\n' "$name"
-    skipped=$((skipped + 1))
-    continue
-  fi
-  ln -s "$source" "$TARGET/$name"
-  installed=$((installed + 1))
-done
-
-printf 'linked %d skills into %s' "$installed" "$TARGET"
-if [[ "$skipped" -gt 0 ]]; then
-  printf ' (%d skipped)' "$skipped"
+TARGET_REPO="$(cd "$TARGET_REPO" && pwd -P)"
+if [[ "$(git -C "$TARGET_REPO" rev-parse --show-toplevel)" != "$TARGET_REPO" ]]; then
+  printf 'target must be the root of an existing Git repository\n' >&2
+  exit 1
 fi
-printf '\n'
+if ! git -C "$TARGET_REPO" diff --quiet || ! git -C "$TARGET_REPO" diff --cached --quiet; then
+  printf 'commit or save tracked changes before installing or updating p3-stack\n' >&2
+  exit 1
+fi
+
+if [[ -e "$TARGET_REPO/$PREFIX" || -L "$TARGET_REPO/$PREFIX" ]]; then
+  if [[ -L "$TARGET_REPO/$PREFIX" ]] || [[ -z "$(git -C "$TARGET_REPO" log -1 --format=%B --grep="^git-subtree-dir: $PREFIX$")" ]]; then
+    printf 'existing %s is not a managed p3-stack subtree; leaving it untouched\n' "$PREFIX" >&2
+    exit 1
+  fi
+  git -C "$TARGET_REPO" subtree pull --prefix="$PREFIX" "$SOURCE" main --squash -m 'chore: sync p3-stack subtree'
+else
+  git -C "$TARGET_REPO" subtree add --prefix="$PREFIX" "$SOURCE" main --squash -m 'feat: add p3-stack subtree'
+fi
+
+printf 'p3-stack files are tracked under %s/%s\n' "$TARGET_REPO" "$PREFIX"
