@@ -14,12 +14,18 @@ pstack is poteto's answer to AI slop code. It turns an agent into an engineering
 ## Install
 
 ```bash
-git clone https://github.com/uzairansaruzi/p3-stack.git
+git clone https://github.com/zackleman/p3-stack.git
 cd p3-stack
 ./install.sh
 ```
 
-`install.sh` links every `skills/*` directory into `~/.agents/skills/`, where T3 Code reads skills. Use `./install.sh --project /path/to/repo` to install into a project's `.agents/skills/` instead.
+This fork is maintained at [zackleman/p3-stack](https://github.com/zackleman/p3-stack). Clone that repository to use these updates.
+
+`install.sh` links every `skills/*` directory into `~/.agents/skills/`, where T3 Code reads skills. Use `./install.sh --project /path/to/repo` to install into a project's `.agents/skills/` instead. Existing files and links from other installations are preserved. Running the installer again leaves matching links intact.
+
+Six skills use a prefix to coexist with the existing personal skill library: `/p3-arena`, `/p3-blast-radius`, `/p3-bro`, `/p3-tdd`, `/p3-teach`, and `/p3-unslop`. Their references inside this fork use those names too.
+
+These workflows use T3 Code tools. Other clients can discover the skills, but running the orchestration workflows requires T3 Code.
 
 ## Get started
 
@@ -33,7 +39,9 @@ cd p3-stack
 
 ## Skills
 
-architect, arena, automate-me, benchmark-checklist, blast-radius, bro, correct, create-verification-skill, figure-it-out, how, interrogate, maintain-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, show-me-your-work, swarm, tdd, teach, technical-writing, typescript-best-practices, unslop, why.
+architect, p3-arena, automate-me, benchmark-checklist, p3-blast-radius, p3-bro, correct, create-verification-skill, figure-it-out, how, interrogate, ketchup, maintain-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, show-me-your-work, swarm, p3-tdd, p3-teach, technical-writing, typescript-best-practices, p3-unslop, why.
+
+The [upstream comparison](docs/upstream-comparison.md) records what this fork imported and which platform-specific updates remain separate.
 
 ## Principles
 

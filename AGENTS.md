@@ -48,6 +48,7 @@ Keep these names exactly.
 ## Layout
 
 - `skills/<name>/SKILL.md` is a skill. `skills/principle-*/SKILL.md` are the short principles.
+- This fork prefixes six overlapping personal skills: `p3-arena`, `p3-blast-radius`, `p3-bro`, `p3-tdd`, `p3-teach`, and `p3-unslop`. Keep their names, directories, and references aligned. `scripts/import-pstack.py` applies the same mapping to imported files.
 - `skills/p3-mode/SKILL.md` is the mode router; its playbooks live in `skills/p3-mode/playbooks/`.
 - `agents/` holds prompt briefs for delegated roles (`p3-agent.md`, `comment-sicko.md`), not harness agent definitions.
 
