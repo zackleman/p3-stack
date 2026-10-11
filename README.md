@@ -23,7 +23,7 @@ This fork is maintained at [zackleman/p3-stack](https://github.com/zackleman/p3-
 
 `install.sh` links every `skills/*` directory into `~/.agents/skills/`, where T3 Code reads skills. Use `./install.sh --project /path/to/repo` to install into a project's `.agents/skills/` instead. Existing files and links from other installations are preserved. Running the installer again leaves matching links intact.
 
-Six skills use a prefix to coexist with the existing personal skill library: `/p3-arena`, `/p3-blast-radius`, `/p3-bro`, `/p3-tdd`, `/p3-teach`, and `/p3-unslop`. Their references inside this fork use those names too.
+Four skills use a prefix to coexist with the existing personal skill library: `/p3-arena`, `/p3-blast-radius`, `/p3-tdd`, and `/p3-teach`. Their references inside this fork use those names too. The upstream unslop is installed as `/unslop`. `/bro` comes from the personal skill library; this fork does not install a second bro skill.
 
 These workflows use T3 Code tools. Other clients can discover the skills, but running the orchestration workflows requires T3 Code.
 
@@ -39,7 +39,7 @@ These workflows use T3 Code tools. Other clients can discover the skills, but ru
 
 ## Skills
 
-architect, p3-arena, automate-me, benchmark-checklist, p3-blast-radius, p3-bro, correct, create-verification-skill, figure-it-out, how, interrogate, ketchup, maintain-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, show-me-your-work, swarm, p3-tdd, p3-teach, technical-writing, typescript-best-practices, p3-unslop, why.
+architect, p3-arena, automate-me, benchmark-checklist, p3-blast-radius, correct, create-verification-skill, figure-it-out, how, interrogate, ketchup, maintain-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, show-me-your-work, swarm, p3-tdd, p3-teach, technical-writing, typescript-best-practices, unslop, why.
 
 The [upstream comparison](docs/upstream-comparison.md) records what this fork imported and which platform-specific updates remain separate.
 

@@ -8,7 +8,7 @@ import subprocess
 
 REVISION = "4bf3e083c6dec126e254f96181b84a105b6e3e70"
 NAMES = {name: f"p3-{name}" for name in (
-    "arena", "blast-radius", "bro", "tdd", "teach", "unslop"
+    "arena", "blast-radius", "tdd", "teach"
 )}
 FILES = [
     "skills/principle-build-the-lever/SKILL.md",
@@ -38,6 +38,7 @@ def adapt(text):
     text = text.replace("poteto-mode", "p3-mode")
     text = text.replace("/loop until done", "schedule checks until done")
     text = text.replace("give `/loop` that predicate", "give `schedule_task` that predicate")
+    text = text.replace("[`/bro`](../bro/SKILL.md)", "the personal `/bro` skill")
     for old, new in NAMES.items():
         text = re.sub(
             rf"(/|\*\*|`|\bname: ){old}(?![\w-])",

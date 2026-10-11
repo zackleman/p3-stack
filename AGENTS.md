@@ -48,7 +48,7 @@ Keep these names exactly.
 ## Layout
 
 - `skills/<name>/SKILL.md` is a skill. `skills/principle-*/SKILL.md` are the short principles.
-- This fork prefixes six overlapping personal skills: `p3-arena`, `p3-blast-radius`, `p3-bro`, `p3-tdd`, `p3-teach`, and `p3-unslop`. Keep their names, directories, and references aligned. `scripts/import-pstack.py` applies the same mapping to imported files.
+- This fork prefixes four overlapping personal skills: `p3-arena`, `p3-blast-radius`, `p3-tdd`, and `p3-teach`. Keep their names, directories, and references aligned. `scripts/import-pstack.py` applies the same mapping to imported files. Upstream unslop uses the plain name `unslop`. Bro is an external dependency from the personal skill library, not a file in this fork.
 - `skills/p3-mode/SKILL.md` is the mode router; its playbooks live in `skills/p3-mode/playbooks/`.
 - `agents/` holds prompt briefs for delegated roles (`p3-agent.md`, `comment-sicko.md`), not harness agent definitions.
 
@@ -68,4 +68,4 @@ Keep these names exactly.
 
 1. Every step names a T3 mechanism or a vendor-neutral habit. Grep for `Cursor`, `Task tool`, `subagent_type`, `cloud agent`, `.cursor`, `agent-transcripts`, `AskQuestion`, `icon:`, `claude-`, `grok-`, `gpt-`, `/loop`. None may remain.
 2. It is shorter than the pstack source unless the T3 rewrite genuinely needs the lines.
-3. Frontmatter matches the rules above, and references to other skills resolve to files in this repo.
+3. Frontmatter matches the rules above, and references to other skills resolve to files in this repo, except the personal `bro` dependency.

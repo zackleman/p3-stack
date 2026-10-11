@@ -14,7 +14,7 @@ with TemporaryDirectory(prefix="p3-install-") as directory:
     (target / "architect").mkdir()
     (target / "architect/keep.txt").write_text("keep directory")
     (target / "how").write_text("keep file")
-    (target / "ketchup").symlink_to(ROOT / "skills/p3-bro")
+    (target / "ketchup").symlink_to(ROOT / "skills/p3-teach")
     (target / "why").symlink_to(project / "missing-skill")
     preserved = {"architect", "how", "ketchup", "why"}
 
@@ -30,7 +30,7 @@ with TemporaryDirectory(prefix="p3-install-") as directory:
     assert inodes == {name: (target / name).lstat().st_ino for name in SKILLS}
     assert (target / "architect/keep.txt").read_text() == "keep directory"
     assert (target / "how").read_text() == "keep file"
-    assert (target / "ketchup").readlink() == ROOT / "skills/p3-bro"
+    assert (target / "ketchup").readlink() == ROOT / "skills/p3-teach"
     assert (target / "why").readlink() == project / "missing-skill"
     for name, source in SKILLS.items():
         if name not in preserved:
