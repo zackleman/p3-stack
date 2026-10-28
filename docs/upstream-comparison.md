@@ -4,6 +4,8 @@ Compared on October 10, 2026. The starting p3-stack revision is [`09909eb`](http
 
 p3-stack is an independent adaptation, not a Git fork of cursor/plugins. Compare `pstack/` against the corresponding skill files rather than merging the repositories.
 
+The October 28, 2026 review used Cursor revision [`23ab063`](https://github.com/cursor/plugins/commit/23ab063af02bb9b9c97936b0563879dd6bf21a05). It imported the formal-verification pair, `/statechart`, `/in-your-own-words`, `/sharpen`, and `/ketchup-video` as a portable bundle. Cursor-specific plugin manifests, model slugs, and harness instructions remain out of p3.
+
 | Upstream change | Decision in this fork |
 | --- | --- |
 | [Prompt distillation, #538](https://github.com/cursor/plugins/commit/00b14f1) | Import shorter versions of ten principles, benchmarking, technical writing, unslop, and four investigation references. |
