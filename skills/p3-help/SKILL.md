@@ -16,7 +16,7 @@ This file maps questions to the skills and playbooks that hold the answers. Thos
 
 Infer the need from the message and the conversation. A named situation, such as "which skill reviews a PR?", goes straight to its section. If the need is still unclear, ask one multiple-choice question with these options, then answer only the section they pick: get set up, start a task with `/p3-mode`, pick a skill for a situation, fix a run that went wrong, or make p3-stack my own.
 
-Check the state that changes the answer, and mention it only when it does. No `p3-models.md` means `/setup-p3` hasn't run for this user, so every role uses its default model. No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app; mention `/create-verification-skill` when the question is about proving a change works.
+Check the state that changes the answer, and mention it only when it does. No `p3-models.md` means `/setup-p3` hasn't run for this user, so every role uses its default model. No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app; mention `/create-verification-skill` when the question is about proving a change works. No formal verification skill means races and invariants are only checked as far as tests reach; mention `/create-formal-verification-skill` for those questions.
 
 ## Get set up
 
@@ -46,6 +46,9 @@ The default answer is `/p3-mode`, which runs most of the others when its steps n
 | Understand a change or subsystem, explained plainly | [`/p3-teach`](../p3-teach/SKILL.md) |
 | Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
 | Catch up on this chat and the decisions waiting on them | [`/ketchup`](../ketchup/SKILL.md) |
+| Catch up on this chat as a short subtitled slide video | [`/ketchup-video`](../ketchup-video/SKILL.md) |
+| Restate the user's goal before work starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
+| Make a task deeper without making it bigger | [`/sharpen`](../sharpen/SKILL.md) |
 | Know what a small diff could break outside itself | [`/p3-blast-radius`](../p3-blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/p3-arena`](../p3-arena/SKILL.md) |
@@ -59,6 +62,9 @@ The default answer is `/p3-mode`, which runs most of the others when its steps n
 | Hear the last reply again in plain words | `/bro` from the personal skill library |
 | Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
+| Formally verify a race, invariant, or other property tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
+| Bring formal verification back in line after covered code changes | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
+| Check a TLA+ model and draw its state transitions | [`/statechart`](../statechart/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
