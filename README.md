@@ -34,7 +34,7 @@ git -C ~/.agents/skills subtree push --prefix=p3 https://github.com/zackleman/p3
 
 Commit edits in the personal skills repository before pushing them back. The pull imports changes from the independent fork; the push exports only `p3/`.
 
-Four skills use a prefix to coexist with the existing personal skill library: `/p3-arena`, `/p3-blast-radius`, `/p3-tdd`, and `/p3-teach`. Their references inside this fork use those names too. The upstream unslop is installed as `/unslop`. `/bro` comes from the personal skill library; this fork does not install a second bro skill.
+Four overlapping skills use their plain names and are shared with the personal skill library: `/arena`, `/blast-radius`, `/tdd`, and `/teach`. Their references inside this fork use those names too. The upstream unslop is installed as `/unslop`. `/bro` comes from the personal skill library; this fork does not install a second bro skill.
 
 These workflows use T3 Code tools. Other clients can discover the skills, but running the orchestration workflows requires T3 Code.
 
@@ -50,7 +50,7 @@ These workflows use T3 Code tools. Other clients can discover the skills, but ru
 
 ## Skills
 
-architect, p3-arena, automate-me, benchmark-checklist, p3-blast-radius, correct, create-verification-skill, create-formal-verification-skill, figure-it-out, how, in-your-own-words, interrogate, ketchup, ketchup-video, maintain-verification-skill, maintain-formal-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, sharpen, show-me-your-work, statechart, swarm, p3-tdd, p3-teach, technical-writing, typescript-best-practices, unslop, why.
+architect, arena, automate-me, benchmark-checklist, blast-radius, correct, create-verification-skill, create-formal-verification-skill, figure-it-out, how, in-your-own-words, interrogate, ketchup, ketchup-video, maintain-verification-skill, maintain-formal-verification-skill, make-bot-ui, no-comments, p3-help, recall, reflect, setup-p3, sharpen, show-me-your-work, statechart, swarm, tdd, teach, technical-writing, typescript-best-practices, unslop, why.
 
 The [upstream comparison](docs/upstream-comparison.md) records what this fork imported and which platform-specific updates remain separate.
 
