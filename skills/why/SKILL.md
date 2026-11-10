@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Investigate the motivation and intent behind code. The companion `how` skill answers what the code does and how it works. `why` answers what forces led to its shape.
 
-Each spawn below names a role line in `p3-models.md`. Resolve it through `orchestrator_capabilities` and pass that provider and model to `delegate_task`. Never hardcode a slug. If the line or the file is missing, use the session default and say so. Pick each delegate's reasoning effort and fast or standard speed for the job, per the Subagents section of the **p3-mode** skill.
+Each spawn below names a role line in `p3-models.md`. Resolve it through `orchestrator_capabilities` and pass that provider and model to `delegate_task`. Never hardcode a slug. If the line or the file is missing, use the session default and say so. Pick each delegate's reasoning effort for the job, per the Subagents section of the **p3-mode** skill.
 
 Every spawn is a `delegate_task` with a self-contained brief. A T3 child task gets only the brief, never this conversation. T3 child tasks can write, so every brief says read-only, inspect only, no writes: no file edits, no git mutations, no writes through any MCP. Investigators and the synthesizer still need their MCP tools for searches and citation spot-checks.
 
