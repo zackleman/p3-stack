@@ -14,23 +14,38 @@ This file maps questions to the skills and playbooks that hold the answers. Thos
 
 ## Find out what they need
 
-Infer the need from the message and the conversation. A named situation, such as "which skill reviews a PR?", goes straight to its section. If the need is still unclear, ask one multiple-choice question with these options, then answer only the section they pick: get set up, start a task with `/p3-mode`, pick a skill for a situation, fix a run that went wrong, or make p3-stack my own.
+Infer the need from the message and the conversation. A named situation, such as "which skill reviews a PR?", goes straight to its section. If the need is still unclear, ask one multiple-choice question with these options, then answer only the section they pick:
 
-Check the state that changes the answer, and mention it only when it does. No `p3-models.md` means `/setup-p3` hasn't run for this user, so every role uses its default model. No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app; mention `/create-verification-skill` when the question is about proving a change works. No formal verification skill means races and invariants are only checked as far as tests reach; mention `/create-formal-verification-skill` for those questions.
+- Get set up
+- Start a task with `/p3-mode`
+- Pick a skill for a situation
+- Fix a run that went wrong
+- Make p3-stack my own
+
+Check the state that changes the answer, and mention it only when it does:
+
+- No `p3-models.md` means `/setup-p3` hasn't run for this user, so every role uses its default model.
+- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` when the question is about proving a change works.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` if the question touches that code.
+
+When `p3-models.md` is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
+
+- Now: give them `/setup-p3` to type, and answer their question too.
+- Later: answer their question, and add one line saying every role keeps its default model until they run `/setup-p3`.
 
 ## Get set up
 
 1. Install by cloning the repo and running `./install.sh`. It imports real files as a Git subtree at `~/.agents/skills/p3`, where T3 Code discovers `p3/skills/`; `./install.sh --project /path/to/repo` targets a project's `.agents/skills/p3` instead. The target must be a Git repository with its tracked changes committed. Run the installer again to pull updates from the independent fork.
-2. Run [`/setup-p3`](../setup-p3/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes `p3-models.md`. The file applies to new sessions.
+2. Run [`/setup-p3`](../setup-p3/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes `p3-models.md`. The file applies to new sessions. Then it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
 3. Start a real task with `/p3-mode`, a goal, and a check that can pass or fail.
 
-Installing changes nothing until the user invokes a skill. `/p3-help` is invoked by name. The [README](../../README.md) has the details. Use [the prompting guide](references/prompting.md) to word their first prompt.
+Installing changes nothing until the user invokes a skill. Every p3-stack skill, `/setup-p3` and `/p3-help` included, loads only when invoked by name. The [README](../../README.md) has the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go and how to spend fewer. p3-stack spends extra tokens on subagents and review panels. Rerun `/setup-p3` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the parent thread's model, which saves tokens when that model is cheaper. A shorter panel list runs fewer subagents, one for each entry. Save `/p3-mode` for work that needs rigor.
 
 ## Start a task with `/p3-mode`
 
-`/p3-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep.
+`/p3-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
 
 Skills are invoked by name (`/p3-mode`). There are no mode toggles, so start each new task with `/p3-mode`. Mid-chat, "new task" makes the mode match a fresh playbook. `/p3-mode` already uses `agents/p3-agent.md` for the delegates its playbook steps spawn. To get the same style from a delegate of your own, open its brief with `agents/p3-agent.md`.
 
@@ -41,30 +56,29 @@ The default answer is `/p3-mode`, which runs most of the others when its steps n
 | The user wants to | Skill |
 |---|---|
 | Do any non-trivial task with rigor | [`/p3-mode`](../p3-mode/SKILL.md) |
+| Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`/sharpen`](../sharpen/SKILL.md) |
 | Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
 | Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
-| Catch up on this chat and the decisions waiting on them | [`/ketchup`](../ketchup/SKILL.md) |
-| Catch up on this chat as a short subtitled slide video | [`/ketchup-video`](../ketchup-video/SKILL.md) |
-| Restate the user's goal before work starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
-| Make a task deeper without making it bigger | [`/sharpen`](../sharpen/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
+| Catch up like `/ketchup`, in a short subtitled video of slides, with the waiting calls as text under it | [`/ketchup-video`](../ketchup-video/SKILL.md) |
 | Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
 | Run parallel checks over slices, or race workers, as delegated child tasks | [`/swarm`](../swarm/SKILL.md) |
-| Have several models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
+| Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
 | Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
 | Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
 | Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
 | Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
 | Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`/technical-writing`](../technical-writing/SKILL.md) |
-| Hear the last reply again in plain words | `/bro` from the personal skill library |
 | Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
-| Formally verify a race, invariant, or other property tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
-| Bring formal verification back in line after covered code changes | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
-| Check a TLA+ model and draw its state transitions | [`/statechart`](../statechart/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
+| Show a PM or designer what the user sees as a chart checked by a TLA+ model, with the shortest path to each state that breaks a rule | [`/statechart`](../statechart/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
@@ -72,7 +86,7 @@ The default answer is `/p3-mode`, which runs most of the others when its steps n
 | Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
 | Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
 | Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
-| Build a page whose buttons wake a bot over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
+| Build a page whose buttons wake the agent over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
 | Find their way around p3-stack | `/p3-help` |
 
 If a skill directory next to this one is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered under principles below.
@@ -83,10 +97,13 @@ Close calls:
 - `/arena` gives every worker the same brief and merges the best parts. `/swarm` splits work into slices or a race and returns one report.
 - `/architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
 - `/interrogate` reviews the diff. `/blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.
-- `/recall` rebuilds context across recent threads. `/ketchup` covers this chat since the user's last message. Resuming one specific thread, delegated task, or branch is the Session pickup playbook.
+- `/recall` rebuilds context across recent threads. `/ketchup` covers only this chat since the user's last message. Resuming one specific thread, delegated task, or branch is the Session pickup playbook.
 - `/figure-it-out` designs one rigorous run. The Orchestrate playbook runs a program that spans days and many PRs. The Autonomous run playbook drives one task to a finish condition.
 
-**Not in p3-stack:** p3-stack has no `/orchestrate` skill. Orchestrate is a `/p3-mode` playbook.
+Not in p3-stack:
+
+- `/bro`, which says the last reply again in plain words, ships in the personal skill library.
+- p3-stack has no `/orchestrate` skill. Orchestrate is a `/p3-mode` playbook.
 
 ## Playbooks and principles
 
@@ -94,7 +111,7 @@ Playbooks are step lists inside `/p3-mode`, not skills, so they aren't invoked b
 
 - "babysit this pr" or "check on pr 123" runs Babysit. It drives the PR to merge-ready and stops there. It doesn't merge unless the user asks to merge, land, or ship.
 - "land the stack" runs Shipping. "take over this branch" runs Session pickup. "pause safely" runs Pause safely. "run the eval playbook" runs Eval.
-- "full autopilot on this queue" runs Autopilot-full. "stack them, don't ship" runs Autopilot-stack.
+- "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
 
 p3-stack has no planning skill. For work that spans phases or stacked PRs, asking `/p3-mode` for a plan runs the [Multi-phase plan playbook](../p3-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or `/architect` settles it in code first.
 
@@ -112,6 +129,8 @@ Principles are one-rule skills that `/p3-mode` reads and cites in its replies. T
 | Parallel agents overwrote each other | Give each worker its own worktree through `t3_thread_launch`, and keep one writer per worktree. |
 | An overnight run moved but finished nothing | It needs a check that can pass or fail, not a duration. |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That's the prove-it-works principle. |
+
+For a run that drifts, [`references/prompting.md`](references/prompting.md) has one-line steers.
 
 ## Make p3-stack my own
 

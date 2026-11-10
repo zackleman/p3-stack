@@ -6,6 +6,8 @@ p3-stack is an independent adaptation, not a Git fork of cursor/plugins. Compare
 
 The October 28, 2026 review used Cursor revision [`23ab063`](https://github.com/cursor/plugins/commit/23ab063af02bb9b9c97936b0563879dd6bf21a05). It imported the formal-verification pair, `/statechart`, `/in-your-own-words`, `/sharpen`, and `/ketchup-video` as a portable bundle. Cursor-specific plugin manifests, model slugs, and harness instructions remain out of p3.
 
+The November 9, 2026 sync brought every existing p3 file up to Cursor revision [`236e548`](https://github.com/cursor/plugins/commit/236e5481d05cbadc315b374a5de54971858c27bb); pstack has not changed since `c742dd6` (October 27). It ports the workflow distillation that the October 10 review deferred, the agentic Orchestrate rewrite (#1043, without the `orch` scripts), the effort and speed rule for delegates (#613, through `delegate_task` `target.options`), and the shorter interrogate, which drops its four reference files. The importer now pins `236e548`, keeps `/unslop` model-invocable, and maps `/visualize` to `html_render`. The original `uzairansaruzi/p3-stack` has no commits after `09909eb`.
+
 | Upstream change | Decision in this fork |
 | --- | --- |
 | [Prompt distillation, #538](https://github.com/cursor/plugins/commit/00b14f1) | Import shorter versions of ten principles, benchmarking, technical writing, unslop, and four investigation references. |
@@ -14,7 +16,7 @@ The October 28, 2026 review used Cursor revision [`23ab063`](https://github.com/
 | [Typed help invocation, #506](https://github.com/cursor/plugins/commit/00b52d9) | Make `/p3-help` explicit and correct its guidance about invocation. |
 | [Missing model setup prompt, #509](https://github.com/cursor/plugins/commit/1e56b29) | Keep the existing T3 setup check and role discovery. Users run `/setup-p3` in T3 to resolve the models available there. |
 | [Model default changes, #511](https://github.com/cursor/plugins/commit/df58112) | Keep models capability-driven through `orchestrator_capabilities` and `p3-models.md`. Do not import Cursor model slugs. |
-| Workflow distillation in #538 | Keep the T3 versions of architect, arena, how, interrogate, reflect, why, and the mode playbooks. These diverge in delegation, worktrees, watching, and model selection; a direct copy would undo the adaptation. A later port needs a separate review. |
+| Workflow distillation in #538 | Deferred on October 10, ported on November 9: each of architect, arena, how, interrogate, reflect, why, and the mode playbooks takes upstream's wording and structure, then the T3 delegation, worktree, watching, and model-role wiring is reapplied. |
 | Cursor guide and plugin manifest changes | Leave out Cursor installation, custom modes, and plugin metadata. |
 
 ## Reproduce the import
